@@ -77,17 +77,39 @@ AegisFlow exists to make that kind of hardening the default, and to keep it that
 | Policy | OPA embedded as a Go library, `actionlint`, `zizmor` |
 | LLM | Pluggable (Claude, OpenAI, local). Bring your own key. Works without AI. |
 | Local dev | Docker Compose, one command |
+| Operations | Terraform, Helm, Argo CD, Prometheus, Loki, Grafana, GoReleaser + cosign |
+
+## Status
+
+Early development, built in the open. Follow the [project board](https://github.com/users/rj-karan/projects/2).
+
+| Milestone | State |
+|---|---|
+| M1 Foundation | In progress: Go API skeleton and hardened CI merged; database, queue, dashboard and GitHub App next |
+| M2 to M6 | Planned, issues written |
+| M7 Operate | Planned, runs alongside M1 to M6 |
 
 ## Quickstart
+
+What runs today is the API with health and readiness endpoints:
 
 ```bash
 git clone https://github.com/rj-karan/AegisFlow.git
 cd AegisFlow
+make test            # go test -race with coverage
+make lint            # golangci-lint, installs into ./bin on first run
+make run             # API on :8080
+curl localhost:8080/healthz
+```
+
+Once [#3](https://github.com/rj-karan/AegisFlow/issues/3) lands, the whole system starts with one command:
+
+```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-Dashboard: http://localhost:3000 · API docs: http://localhost:8000/docs
+Dashboard on http://localhost:3000, API on http://localhost:8080.
 
 See [docs/development.md](docs/development.md) for running each service on its own.
 Why Go instead of the Python in the original design: [ADR-0001](docs/adr/0001-go-for-server-side.md).
@@ -105,7 +127,7 @@ done only when its exit test passes on real repositories.
 | [M4 Gate + validate](docs/milestones/M4.md) | OPA rules, gate-weakening detector, sandbox runner | Every bad fixture blocked |
 | [M5 PR + monitor](docs/milestones/M5.md) | Branch, commit, open PR; webhooks and run history | A real PR merged |
 | [M6 Repair + eval](docs/milestones/M6.md) | Failure classifier, repair PRs, 30-repo benchmark | Evaluation vs template-only and LLM-only |
-| [M7 Operate](docs/milestones/M7.md) (alongside M1–M6) | Terraform, Kubernetes, Helm, Argo CD GitOps, Prometheus/Grafana/Loki, signed releases | Merge to `main` is live on the cluster with no manual `kubectl`, verified by `gh attestation verify` |
+| [M7 Operate](docs/milestones/M7.md) | Terraform, Kubernetes (kind, then k3s on a free arm64 VM), Helm, Argo CD GitOps, Prometheus, Loki, Grafana, signed releases | A merge to `main` goes live on the cluster with no manual `kubectl`, verified by `gh attestation verify` |
 
 Progress is tracked on the [project board](https://github.com/users/rj-karan/projects/2)
 and in [issues](https://github.com/rj-karan/AegisFlow/issues). Everything runs for free on a
@@ -121,6 +143,13 @@ and every query is workspace-scoped. High-risk actions require explicit human ap
 land in an append-only audit log. Full threat model: [docs/design.md](docs/design.md#security-model).
 
 Found a vulnerability? See [SECURITY.md](SECURITY.md).
+
+## How this repo is run
+
+Every change starts as an issue, lands as a squash-merged pull request, and moves across the
+board. `main` is protected: no direct pushes, linear history, CI required. The CI workflow
+follows the same rules AegisFlow enforces on generated pipelines: no default permissions,
+every Action pinned to a commit SHA, timeouts everywhere, audited by actionlint and zizmor.
 
 ## Contributing
 
