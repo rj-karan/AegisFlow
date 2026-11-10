@@ -34,3 +34,6 @@ pnpm-debug.log*
 data/
 *.db
 *.sqlite
+
+# Build output and local tools
+bin/
