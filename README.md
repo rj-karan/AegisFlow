@@ -14,7 +14,7 @@ before a human merges it.
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Go](https://img.shields.io/badge/go-1.24%2B-00ADD8?logo=go&logoColor=white)](go.mod)
 [![Next.js](https://img.shields.io/badge/dashboard-Next.js-000?logo=nextdotjs)](web/)
-[![Project board](https://img.shields.io/badge/kanban-project%20board-6f42c1?logo=github)](https://github.com/rj-karan/AegisFlow/projects)
+[![Project board](https://img.shields.io/badge/kanban-project%20board-6f42c1?logo=github)](https://github.com/users/rj-karan/projects/2)
 
 </div>
 
@@ -105,9 +105,12 @@ done only when its exit test passes on real repositories.
 | [M4 Gate + validate](docs/milestones/M4.md) | OPA rules, gate-weakening detector, sandbox runner | Every bad fixture blocked |
 | [M5 PR + monitor](docs/milestones/M5.md) | Branch, commit, open PR; webhooks and run history | A real PR merged |
 | [M6 Repair + eval](docs/milestones/M6.md) | Failure classifier, repair PRs, 30-repo benchmark | Evaluation vs template-only and LLM-only |
+| [M7 Operate](docs/milestones/M7.md) (alongside M1–M6) | Terraform, Kubernetes, Helm, Argo CD GitOps, Prometheus/Grafana/Loki, signed releases | Merge to `main` is live on the cluster with no manual `kubectl`, verified by `gh attestation verify` |
 
-Progress is tracked on the [project board](https://github.com/rj-karan/AegisFlow/projects)
-and in [issues](https://github.com/rj-karan/AegisFlow/issues).
+Progress is tracked on the [project board](https://github.com/users/rj-karan/projects/2)
+and in [issues](https://github.com/rj-karan/AegisFlow/issues). Everything runs for free on a
+student budget: see [docs/operations/free-tier-plan.md](docs/operations/free-tier-plan.md).
+Learning DevOps along the way? Follow [docs/learning-path.md](docs/learning-path.md).
 
 ## Security model
 
