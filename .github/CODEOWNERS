@@ -1,0 +1,8 @@
+# Default owner for everything
+*                       @rj-karan
+
+# Policy rules and security-sensitive code need an explicit review
+/policy/                @rj-karan
+/internal/github/       @rj-karan
+/internal/gate/         @rj-karan
+/.github/workflows/     @rj-karan
