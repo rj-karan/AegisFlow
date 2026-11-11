@@ -5,7 +5,7 @@
 # Base images are pinned by digest (Dependabot keeps them current), the same
 # reason every GitHub Action in .github/workflows is pinned by SHA.
 
-FROM golang:1.24-alpine@sha256:8bee1901f1e530bfb4a7850aa7a479d17ae3a18beb6e09064ed54cfd245b7191 AS build
+FROM golang:1.25-alpine@sha256:1ae0735f00daffa3aaf1363a5184c0d2dc55c78e3db4ec70241cdac97bf84b59 AS build
 ARG CMD=api
 WORKDIR /src
 
