@@ -7,7 +7,7 @@ GOLANGCI_LINT := $(GOBIN)/golangci-lint
 
 export GOBIN
 
-.PHONY: help build run test lint fmt vet tidy clean
+.PHONY: help build run test lint fmt vet tidy clean dev dev-down dev-logs image
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
@@ -39,3 +39,15 @@ lint: $(GOLANGCI_LINT) vet ## golangci-lint + vet
 
 clean: ## Remove build output
 	rm -rf bin
+
+dev: ## Start postgres, redis and the API with Docker Compose
+	docker compose up --build
+
+dev-down: ## Stop the Compose stack and remove volumes
+	docker compose down -v
+
+dev-logs: ## Tail Compose logs
+	docker compose logs -f
+
+image: ## Build the API container image locally
+	docker build --build-arg CMD=api -t aegisflow-api:dev .

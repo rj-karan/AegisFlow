@@ -11,18 +11,29 @@
 
 ```bash
 cp .env.example .env
-make dev          # docker compose up --build
+make dev          # docker compose up --build: postgres, redis, api
+make dev-logs     # tail logs
+make dev-down     # stop and delete volumes
 ```
+
+The API is on http://127.0.0.1:8080. Ports bind to loopback only, so nothing is exposed on
+your LAN. Worker and web services join `compose.yaml` with issues #5 and #6.
 
 ## Services on their own
 
 ```bash
-make api          # go run ./cmd/api
-make worker       # go run ./cmd/worker
-make web          # cd web && pnpm dev
+docker compose up postgres redis   # dependencies only
+make run                           # go run ./cmd/api, reads .env values from your shell
 ```
 
-Postgres and Redis can stay in Compose: `docker compose up postgres redis`.
+Load `.env` into a shell with `set -a; source .env; set +a`.
+
+## Container image
+
+`make image` builds `aegisflow-api:dev` from the multi-stage `Dockerfile`: Go builder on
+Alpine, final image on distroless `static` (about 17 MB, no shell, non-root). Compose runs
+it with a read-only root filesystem, `no-new-privileges` and all capabilities dropped.
+Base images are pinned by digest; Dependabot proposes updates weekly.
 
 ## Tests and lint
 
